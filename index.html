@@ -1,0 +1,632 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Penguin Waffle & Pancake — Menu</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;600;700;800&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+
+<div class="bg-scatter" aria-hidden="true"></div>
+
+<header class="hero">
+  <div class="hero-inner">
+    <div class="penguin-badge">
+      <img src="penguin_logo.png" alt="Company Logo" width="300" height="200">
+    </div>
+    <div class="hero-text">
+      <h1>Penguin</h1>
+    </div>
+  </div>
+  <p class="tagline">Lo2ma 7elwa, Mashroob A7la, w Mazag 3al 🐧</p>
+</header>
+
+<nav class="tabs-wrap" aria-label="Menu categories">
+  <div class="tabs" id="tabs-row-1" role="tablist"></div>
+  <div class="tabs" id="tabs-row-2" role="tablist"></div>
+</nav>
+
+<main id="menu"></main>
+
+<footer class="footer">
+  <p>Kol Lo2ma ... Leha Mazag 🐧</p>
+</footer>
+
+<script>
+const CURRENCY = "EGP";
+
+const MENU = [
+  {
+    id: "hot-drinks",
+    title: "Hot Drinks",
+    icon: "cup",
+    columns: ["Medium", "Large"],
+    keys: ["Medium", "Large"],
+    items: [
+      { name: "Red Tea", note: "", Medium: 25, Large: 30 },
+      { name: "Karak Tea", note: "", Medium: 50, Large: 70 },
+      { name: "Milk Tea", note: "", Medium: 50, Large: 70 },
+      { name: "Green Tea", note: "", Medium: 35, Large: 45 },
+      { name: "Herbals", note: "", Medium: 30, Large: 40 },
+      { name: "Cinnamon Milk", note: "", Medium: 45, Large: 60 },
+      { name: "Sahlab", note: "", Medium: 70, Large: 90 },
+      { name: "Hot Cider", note: "", Medium: 65, Large: null  },
+      { name: "Se7tak Bel Donia", note: "", Medium: 55, Large: null  },
+      { name: "Penguin Hot Chocolate", note: "", Medium: 80, Large: 100 }
+    ]
+  },
+  {
+    id: "hot-coffee",
+    title: "Hot Coffee",
+    icon: "cup",
+    columns: ["Medium", "Large"],
+    keys: ["Medium", "Large"],
+    items: [
+      { name: "Penguin Espresso", note: "", Medium: 45, Large: null },
+      { name: "Mr. Penguin Americano", note: "", Medium: 60, Large: 75 },
+      { name: "Penguin Cappuccino", note: "", Medium: 70, Large: 90 },
+      { name: "Cozy Latte", note: "", Medium: 70, Large: 90 },
+      { name: "Flat White", note: "", Medium: 75, Large: null },
+      { name: "Cortado", note: "", Medium: 75, Large: null },
+      { name: "Macchiato", note: "", Medium: 65, Large: null },
+      { name: "Spanish Penguin", note: "", Medium: 80, Large: 100 },
+      { name: "Hazelnut Coffee", note: "", Medium: 50, Large: 65 },
+      { name: "Mocha Mood", note: "Dark / White", Medium: 80, Large: 95 },
+      { name: "Penguin Nescafé", note: "", Medium: 60, Large: 80 },
+      { name: "Arabic Coffee", note: "", Medium: 60, Large: 80 },
+      { name: "Turkish Coffee", note: "", Medium: 35, Large: 55 },
+      { name: "French Coffee", note: "", Medium: 50, Large: 70 },
+      { name: "V60", note: "", Medium: null, Large: 110 }
+    ]
+  },
+  {
+    id: "ice-coffee",
+    title: "Ice Coffee",
+    icon: "cup",
+    columns: ["Medium", "Large"],
+    keys: ["Medium", "Large"],
+    items: [
+      { name: "Iced Penguin", note: "", Medium: 90, Large: 110 },
+      { name: "Iced Americano", note: "", Medium: 75, Large: 90 },
+      { name: "Iced Spanish", note: "", Medium: 100, Large: 120 },
+      { name: "Iced V60", note: "", Medium: null, Large: 120 },
+      { name: "Iced Salted Caramel", note: "", Medium: 100, Large: 115 },
+      { name: "Iced Mocha", note: "Dark / White", Medium: 120, Large: 140 },
+      { name: "Iced Caramel Macchiato", note: "", Medium: 120, Large: 140 },
+      { name: "Iced Pistachio Latte", note: "", Medium: 145, Large: 170 }
+    ]
+  },
+  {
+    id: "matcha",
+    title: "Matcha",
+    icon: "cup",
+    columns: ["Medium", "Large"],
+    keys: ["Medium", "Large"],
+    items: [
+      { name: "Penguin Matcha Latte", note: "", Medium: 120, Large: 140 },
+      { name: "Iced Matcha Latte", note: "", Medium: 125, Large: 145 },
+      { name: "Pistachio Matcha", note: "", Medium: 180, Large: 200 },
+      { name: "Mango Matcha", note: "", Medium: 125, Large: 145 },
+      { name: "Pink Cloud Matcha", note: "", Medium: 125, Large: 145 },
+      { name: "Blueberry Matcha", note: "", Medium: 125, Large: 145 },
+      { name: "Coconut Matcha", note: "", Medium: 125, Large: 145 }
+    ]
+  },
+  {
+    id: "frappe",
+    title: "Frappe",
+    icon: "cup",
+    columns: ["Medium", "Large"],
+    keys: ["Medium", "Large"],
+    items: [
+      { name: "Penguin Frappe", note: "", Medium: 100, Large: 110 },
+      { name: "Penguin Spanish Frappe", note: "", Medium: 110, Large: 130 },
+      { name: "Caramel Penguin", note: "", Medium: 115, Large: 130 },
+      { name: "Salted Caramel Penguin", note: "", Medium: 110, Large: 125 },
+      { name: "Mocha Freeze", note: "Dark / White", Medium: 130, Large: 150 },
+      { name: "Pistachio Penguin", note: "", Medium: 160, Large: 180 }
+    ]
+  },
+  {
+    id: "mojito",
+    title: "Mojito",
+    icon: "cup",
+    columns: ["Medium", "Large"],
+    keys: ["Medium", "Large"],
+    items: [
+      { name: "Passion Penguin", note: "", Medium: 100, Large: 120 },
+      { name: "Mixed Berry Penguin", note: "", Medium: 95, Large: 110 },
+      { name: "Strawberry Penguin", note: "", Medium: 95, Large: 110 },
+      { name: "Watermelon Penguin", note: "", Medium: 95, Large: 110 },
+      { name: "Kiwi mango Penguin", note: "", Medium: 100, Large: 120 }
+    ]
+  },
+  {
+    id: "smoothies",
+    title: "Smoothies",
+    icon: "cup",
+    columns: ["Medium", "Large"],
+    keys: ["Medium", "Large"],
+    items: [
+      { name: "Mango Penguin", note: "", Medium: 100, Large: 120 },
+      { name: "Strawberry Penguin", note: "", Medium: 100, Large: 120 },
+      { name: "Mixed Berry", note: "", Medium: 110, Large: 130 },
+      { name: "Blueberry Dream", note: "", Medium: 110, Large: 130 },
+      { name: "Passion Penguin", note: "", Medium: 110, Large: 130 },
+      { name: "Kiwi Penguin", note: "", Medium: 110, Large: 130 },
+      { name: "Watermelon Penguin", note: "", Medium: 100, Large: 120 },
+      { name: "Minty Watermelon", note: "",Medium: 110, Large: 130 }
+    ]
+  },
+  {
+    id: "fresh-juice",
+    title: "Fresh Juice",
+    icon: "cup",
+    columns: ["Medium", "Large"],
+    keys: ["Medium", "Large"],
+    items: [
+      { name: "Mango Fresh", note: "", Medium: 80, Large: 100 },
+      { name: "Strawberry Fresh", note: "", Medium: 80, Large: 100 },
+      { name: "Lemon Fresh", note: "", Medium: 60, Large: 80 },
+      { name: "Minty Lemon", note: "", Medium: 70, Large: 85 },
+      { name: "Guava Fresh", note: "", Medium: 80, Large: 100 },
+      { name: "Kiwi Fresh", note: "", Medium: 90, Large: 100 },
+      { name: "Banana Fresh", note: "", Medium: 80, Large: 100 }
+    ]
+  },
+  {
+    id: "penguin-7ad2",
+    title: "Penguin 7ad2",
+    icon: "penguin",
+    items: [
+      { name: "Roumi Cheese", note: "", price: 25 },
+      { name: "Kiri Luncheon", note: "", price: 30 },
+      { name: "Roquefort", note: "", price: 25 },
+      { name: "Cheesy Mix", note: "", price: 35 },
+      { name: "Roumi & Luncheon", note: "", price: 35 },
+      { name: "Pastrami Kiri", note: "", price: 45 },
+      { name: "Kiri Sausage", note: "", price: 35 },
+      { name: "Penguin Triple Melt", note: "Kiri+ Pastrami +Sausage", price: 55 },
+      { name: "Luncheon Fajita", note: "", price: 30 },
+      { name: "Roast Beef Penguin", note: "", price: null },
+      { name: "Tuna Penguin ", note: "", price: 50 }
+    ]
+  },
+  {
+    id: "penguin-7elw",
+    title: "Penguin 7elw",
+    icon: "penguin",
+    items: [
+      { name: "Honey Cream", note: "", price: null },
+      { name: "Jammy Cream", note: "", price: null },
+      { name: "Halawa Cream", note: "", price: null },
+      { name: "Oreo Cream", note: "", price: null },
+      { name: "Lotus Penguin", note: "", price: null },
+      { name: "Moro Penguin", note: "", price: null },
+      { name: "Kinder Penguin", note: "", price: null },
+      { name: "Pistachio Penguin", note: "", price: null },
+      { name: "Pistachio Lotus", note: "", price: null },
+      { name: "Lotus Oreo", note: "", price: null },
+      { name: "Moro Lotus", note: "", price: null },
+      { name: "Moro Oreo", note: "", price: null },
+      { name: "Kinder Oreo", note: "", price: null },
+      { name: "Kinder Lotus", note: "", price: null },
+      { name: "Pistachio Oreo", note: "", price: null },
+      { name: "Penguin +18", note: "", price: null },
+      { name: "Penguin +21", note: "", price: null },
+      { name: "Penguin +32", note: "", price: null },
+      { name: "Penguin +46", note: "", price: null }
+    ]
+  },
+  {
+    id: "waffle",
+    title: "Waffle",
+    icon: "waffle",
+    items: [
+      { name: "Classic Penguin", note: "sugar + syrup", price: 50 },
+      { name: "Nutella Penguin", note: "Nutella + Banana", price: 80 },
+      { name: "Choco Penguin", note: "Dark / White Chocolate", price: 70 },
+      { name: "Oreo Penguin", note: "Oreo + Chocolate", price: 85 },
+      { name: "Kinder Penguin", note: "Kinder + Chocolate", price: 80 },
+      { name: "Lotus Penguin", note: "Lotus + Biscuit", price: 80 },
+      { name: "Pistachio Penguin", note: "", price: 120 },
+      { name: "Fruits Penguin", note: "", price: 100 },
+      { name: "Penguin Dream", note: "Four Seasons", price: 120 }
+    ]
+  },
+  {
+    id: "pancake",
+    title: "Pancake",
+    icon: "waffle",
+    items: [
+      { name: "Classic Penguin", note: "", price: 55 },
+      { name: "Lotus Penguin", note: "", price: 80 },
+      { name: "Pistachio Penguin", note: "", price: 100 },
+      { name: "Kinder Penguin", note: "", price: 80 },
+      { name: "Choco Penguin", note: "Dark / White", price: 60 },
+      { name: "Caramel Penguin", note: "", price: 60 },
+      { name: "Penguin Pancake Party", note: "Make it your way", price: 75 }
+    ]
+  },
+  {
+    id: "soft-drinks",
+    title: "Soft Drinks",
+    icon: "cup",
+    items: [
+      { name: "Coca-Cola", note: "", price: 35 },
+      { name: "Redbull", note: "", price: 100 },
+      { name: "Water", note: "", price: 10 }
+    ]
+  }
+];
+
+/* ================================================================
+   RENDER LOGIC — no need to edit below this line.
+================================================================ */
+const ICONS = {
+  cup: '<path d="M4 8h13v6a5 5 0 0 1-5 5H9a5 5 0 0 1-5-5V8Z"/><path d="M17 9h1.5a2.5 2.5 0 0 1 0 5H17"/><path d="M7 3.5c0 1-1 1-1 2s1 1 1 2M11 3.5c0 1-1 1-1 2s1 1 1 2"/>',
+  waffle: '<rect x="3.5" y="3.5" width="17" height="17" rx="3"/><path d="M3.5 8h17M3.5 13h17M3.5 18h17M8 3.5v17M13 3.5v17M18 3.5v17"/>',
+  cake: '<path d="M3 20h18v-6a9 9 0 0 0-18 0v6Z"/><path d="M3 20h18v1a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1v-1Z"/><path d="M12 8V4M9 4c0-1 1-1 1-2M15 4c0 1-1 1-1 2"/>',
+  penguin: '<ellipse cx="12" cy="14" rx="7" ry="8"/><ellipse cx="12" cy="15.5" rx="4" ry="5.5"/><circle cx="9.3" cy="10.5" r="1"/><circle cx="14.7" cy="10.5" r="1"/><path d="M12 12.5c1 0 1.4.6 1.4 1s-.6 1-1.4 1-1.4-.4-1.4-1 .4-1 1.4-1Z"/>'
+};
+
+function fmt(n){
+  if (n === null || n === undefined || n === "") return "—";
+  return `${n} ${CURRENCY}`;
+}
+
+function iconSVG(key){
+  return `<svg viewBox="0 0 24 24" class="cat-icon" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">${ICONS[key] || ICONS.waffle}</svg>`;
+}
+
+// Categories 1–7 render in the top tab row, the rest in the bottom row.
+const ROW_SPLIT = 7;
+
+function renderTabs(){
+  const row1 = document.getElementById('tabs-row-1');
+  const row2 = document.getElementById('tabs-row-2');
+
+  MENU.forEach((cat, i) => {
+    const target = i < ROW_SPLIT ? row1 : row2;
+    const btn = document.createElement('button');
+    btn.className = 'tab' + (i === 0 ? ' active' : '');
+    btn.setAttribute('role', 'tab');
+    btn.setAttribute('aria-selected', i === 0 ? 'true' : 'false');
+    btn.dataset.target = cat.id;
+    btn.innerHTML = `${iconSVG(cat.icon)}<span>${cat.title}</span>`;
+    target.appendChild(btn);
+  });
+
+  document.querySelectorAll('.tab').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.tab').forEach(b => { b.classList.remove('active'); b.setAttribute('aria-selected','false'); });
+      btn.classList.add('active'); btn.setAttribute('aria-selected','true');
+      document.querySelectorAll('.category').forEach(sec => sec.classList.remove('visible'));
+      document.getElementById('cat-' + btn.dataset.target).classList.add('visible');
+    });
+  });
+}
+
+function renderCategory(cat, index){
+  const isDrinkTable = !!cat.keys;
+
+  let itemsHTML;
+  if (isDrinkTable){
+    itemsHTML = `
+      <div class="drink-head">
+        <span></span><span>${cat.columns[0]}</span><span>${cat.columns[1]}</span>
+      </div>
+      ${cat.items.map(it => `
+        <div class="drink-row">
+          <div class="item-name">${it.name}${it.note ? `<span class="note">${it.note}</span>` : ''}</div>
+          <div class="price">${fmt(it[cat.keys[0]])}</div>
+          <div class="price">${fmt(it[cat.keys[1]])}</div>
+        </div>
+      `).join('')}
+    `;
+  } else {
+    itemsHTML = cat.items.map(it => `
+      <div class="item-row">
+        <div class="item-name">${it.name}${it.note ? `<span class="note">${it.note}</span>` : ''}</div>
+        <div class="dots"></div>
+        <div class="price">${fmt(it.price)}</div>
+      </div>
+    `).join('');
+  }
+
+  const addonsHTML = cat.addons ? `
+    <div class="addons">
+      ${cat.addons.map(a => `<span>${a.name} <strong>+${a.price}</strong></span>`).join('<i class="sep">•</i>')}
+    </div>` : '';
+
+  return `
+    <section class="category ${index === 0 ? 'visible' : ''}" id="cat-${cat.id}">
+      <div class="cat-card">
+        <div class="cat-title">
+          ${iconSVG(cat.icon)}
+          <h2>${cat.title}</h2>
+        </div>
+        ${cat.subtitle ? `<p class="cat-subtitle">${cat.subtitle}</p>` : ''}
+        <div class="items">${itemsHTML}</div>
+        ${addonsHTML}
+      </div>
+    </section>
+  `;
+}
+
+function renderMenu(){
+  document.getElementById('menu').innerHTML = MENU.map(renderCategory).join('');
+}
+
+renderTabs();
+renderMenu();
+</script>
+
+<style>
+:root{
+  --ink:#141210;
+  --yellow:#F5B800;
+  --yellow-soft:#FFD34D;
+  --cream:#FFF8E7;
+  --line: rgba(20,18,16,0.12);
+}
+
+*{ box-sizing: border-box; }
+
+body{
+  margin:0;
+  background: var(--ink);
+  color: var(--cream);
+  font-family: 'Nunito', sans-serif;
+  min-height: 100vh;
+  position: relative;
+  overflow-x: hidden;
+}
+
+.bg-scatter{
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  background-image:
+    radial-gradient(circle at 8% 15%, rgba(245,184,0,0.05) 0, transparent 8%),
+    radial-gradient(circle at 92% 25%, rgba(245,184,0,0.05) 0, transparent 8%),
+    radial-gradient(circle at 15% 85%, rgba(245,184,0,0.04) 0, transparent 10%),
+    radial-gradient(circle at 88% 80%, rgba(245,184,0,0.04) 0, transparent 10%);
+  z-index: 0;
+}
+
+.hero{
+  position: relative;
+  z-index: 1;
+  padding: 44px 24px 24px;
+  text-align: center;
+}
+
+.hero-inner{
+  display: inline-flex;
+  align-items: center;
+  gap: 18px;
+  background: var(--yellow);
+  border-radius: 999px;
+  padding: 14px 32px 14px 14px;
+  box-shadow: 0 10px 0 rgba(0,0,0,0.35);
+}
+
+.penguin-badge{
+  width: 64px; height: 64px;
+  background: var(--ink);
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+}
+.penguin-icon{ width: 46px; height: 46px; }
+
+.hero-text h1{
+  font-family: 'Baloo 2', sans-serif;
+  font-weight: 800;
+  font-size: clamp(1.6rem, 4vw, 2.6rem);
+  color: var(--ink);
+  margin: 0;
+  line-height: 1.05;
+  text-align: left;
+}
+.hero-text h1 span{
+  display: block;
+  font-family: 'Nunito', sans-serif;
+  font-weight: 700;
+  font-size: 0.36em;
+  letter-spacing: 0.04em;
+  margin-top: 4px;
+  color: rgba(20,18,16,0.75);
+}
+
+.tagline{
+  margin: 16px 0 0;
+  font-family: 'Baloo 2', sans-serif;
+  color: var(--yellow-soft);
+  font-size: 1.05rem;
+  font-weight: 600;
+}
+
+.tabs-wrap{
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 12px 16px;
+  background: rgba(20,18,16,0.94);
+  backdrop-filter: blur(6px);
+  border-bottom: 1px solid rgba(245,184,0,0.2);
+}
+
+.tabs{
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.tab{
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  padding: 9px 16px;
+  border-radius: 999px;
+  border: 1.5px solid rgba(245,184,0,0.35);
+  background: transparent;
+  color: var(--cream);
+  font-family: 'Nunito', sans-serif;
+  font-weight: 700;
+  font-size: 0.86rem;
+  cursor: pointer;
+  transition: background 0.2s ease, color 0.2s ease, transform 0.15s ease;
+  white-space: nowrap;
+}
+.tab .cat-icon{ width: 16px; height: 16px; color: currentColor; flex-shrink: 0; }
+.tab:hover{ transform: translateY(-1px); }
+.tab.active{
+  background: var(--yellow);
+  color: var(--ink);
+  border-color: var(--yellow);
+}
+
+main{
+  position: relative;
+  z-index: 1;
+  max-width: 760px;
+  margin: 0 auto;
+  padding: 32px 20px 60px;
+}
+
+.category{ display: none; }
+.category.visible{ display: block; animation: fadeIn 0.35s ease; }
+
+@keyframes fadeIn{
+  from{ opacity: 0; transform: translateY(6px); }
+  to{ opacity: 1; transform: translateY(0); }
+}
+
+.cat-card{
+  background: var(--cream);
+  color: var(--ink);
+  border-radius: 22px;
+  padding: 28px 26px 24px;
+  box-shadow: 0 12px 0 rgba(0,0,0,0.4);
+}
+
+.cat-title{
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 4px;
+}
+.cat-title .cat-icon{ width: 26px; height: 26px; color: var(--ink); }
+.cat-title h2{
+  font-family: 'Baloo 2', sans-serif;
+  font-weight: 800;
+  font-size: 1.6rem;
+  margin: 0;
+}
+
+.cat-subtitle{
+  margin: 4px 0 18px;
+  font-style: italic;
+  font-weight: 600;
+  color: rgba(20,18,16,0.6);
+  font-size: 0.92rem;
+}
+
+.items{ margin-top: 18px; }
+
+.item-row{
+  display: grid;
+  grid-template-columns: 1fr auto auto;
+  align-items: baseline;
+  gap: 8px;
+  padding: 10px 0;
+  border-bottom: 1px dashed var(--line);
+}
+.item-row:last-child{ border-bottom: none; }
+
+.item-name{
+  font-weight: 700;
+  font-size: 1.02rem;
+}
+.item-name .note{
+  display: block;
+  font-weight: 500;
+  font-size: 0.82rem;
+  color: rgba(20,18,16,0.55);
+  margin-top: 2px;
+}
+
+.dots{ display: none; }
+
+.price{
+  font-family: 'Baloo 2', sans-serif;
+  font-weight: 700;
+  font-size: 1.02rem;
+  color: var(--ink);
+  white-space: nowrap;
+}
+
+.drink-head{
+  display: grid;
+  grid-template-columns: 1fr 60px 60px;
+  gap: 8px;
+  padding-bottom: 8px;
+  border-bottom: 2px solid var(--ink);
+  font-family: 'Baloo 2', sans-serif;
+  font-weight: 700;
+  font-size: 0.8rem;
+  letter-spacing: 0.03em;
+  color: rgba(20,18,16,0.6);
+  text-align: right;
+}
+.drink-head span:first-child{ text-align: left; }
+
+.drink-row{
+  display: grid;
+  grid-template-columns: 1fr 60px 60px;
+  gap: 8px;
+  align-items: baseline;
+  padding: 10px 0;
+  border-bottom: 1px dashed var(--line);
+  text-align: right;
+}
+.drink-row:last-child{ border-bottom: none; }
+.drink-row .item-name{ text-align: left; }
+
+.addons{
+  margin-top: 20px;
+  padding: 12px 16px;
+  background: var(--yellow);
+  border-radius: 14px;
+  font-weight: 700;
+  font-size: 0.88rem;
+  text-align: center;
+}
+.addons .sep{ margin: 0 8px; opacity: 0.6; font-style: normal; }
+
+.footer{
+  text-align: center;
+  padding: 30px 20px 44px;
+  color: rgba(255,248,231,0.55);
+  font-family: 'Baloo 2', sans-serif;
+  font-weight: 600;
+  position: relative;
+  z-index: 1;
+}
+
+@media (max-width: 480px){
+  .hero-inner{ flex-direction: column; padding: 20px; gap: 10px; }
+  .hero-text h1{ text-align: center; }
+  .cat-card{ padding: 22px 18px; }
+}
+</style>
+</body>
+</html>
